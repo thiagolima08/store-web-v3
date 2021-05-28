@@ -3,6 +3,7 @@ package br.edu.ifpb.padroes.storewebv3.rest;
 import br.edu.ifpb.padroes.storewebv3.commands.CreateOrder;
 import br.edu.ifpb.padroes.storewebv3.commands.Invoker;
 import br.edu.ifpb.padroes.storewebv3.domain.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,16 +18,17 @@ public class OrderResource {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Void> createOrder(@RequestBody Order order) {
+    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
         CreateOrder createOrder = new CreateOrder(order);
         invoker.add(createOrder);
-        return ResponseEntity.ok().build();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
     @PostMapping("/finalize")
-    public ResponseEntity<Void> finalizeOrder() {
+    public ResponseEntity<Order> finalizeOrder() {
         invoker.createOrders();
-        return ResponseEntity.ok().build();
+        return ResponseEntity.noContent().build();
     }
 
 }
