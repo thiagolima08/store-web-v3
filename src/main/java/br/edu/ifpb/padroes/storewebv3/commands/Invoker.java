@@ -23,7 +23,8 @@ public class Invoker {
      }
 
      public void createOrders() {
-          for (OrderCommand orderCommand: commands){
+          while (!isEmpty()) {
+              OrderCommand orderCommand = remove();
               orderCommand.execute();
           }
      }

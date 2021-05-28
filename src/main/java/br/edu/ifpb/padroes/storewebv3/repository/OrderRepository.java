@@ -12,12 +12,22 @@ public class OrderRepository {
 
     private List<Order> orderList = new ArrayList<>();
 
+    private static OrderRepository instance;
+
+    public static OrderRepository getInstance() {
+        if (instance == null) {
+            instance = new OrderRepository();
+        }
+
+        return instance;
+    }
+
     public List<Order> getOrderList() {
         return orderList;
     }
 
-    public boolean add(Order element) {
-        return orderList.add(element);
+    public void add(Order element) {
+        orderList.add(element);
     }
 
     public boolean remove(Order product) {
