@@ -26,7 +26,7 @@ public class OrderResource {
     }
 
     @PostMapping("/finalize")
-    public ResponseEntity<Order> finalizeOrder() {
+    public ResponseEntity<Void> finalizeOrder() {
         invoker.createOrders();
         return ResponseEntity.noContent().build();
     }
