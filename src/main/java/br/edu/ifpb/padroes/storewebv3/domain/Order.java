@@ -1,8 +1,11 @@
 package br.edu.ifpb.padroes.storewebv3.domain;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 import java.util.List;
 
+@Component
 public class Order {
 
     private Long id;

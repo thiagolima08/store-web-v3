@@ -3,7 +3,9 @@ package br.edu.ifpb.padroes.storewebv3.rest;
 import br.edu.ifpb.padroes.storewebv3.commands.CreateOrder;
 import br.edu.ifpb.padroes.storewebv3.commands.Invoker;
 import br.edu.ifpb.padroes.storewebv3.domain.Order;
+import br.edu.ifpb.padroes.storewebv3.facade.OrderFacade;
 import br.edu.ifpb.padroes.storewebv3.service.OrderService;
+import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +16,22 @@ import java.util.List;
 @RequestMapping("/api/order")
 public class OrderResource {
 
-    private Invoker invoker;
+    private final Invoker invoker;
 
-    private OrderService orderService = new OrderService();
+    private final OrderFacade orderFacade;
 
-    public OrderResource(Invoker invoker) {
+    private final ApplicationContext context;
+
+    public OrderResource(Invoker invoker, OrderFacade orderFacade, ApplicationContext context) {
         this.invoker = invoker;
+        this.orderFacade = orderFacade;
+        this.context = context;
     }
 
     @PostMapping("/create")
     public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        CreateOrder createOrder = new CreateOrder(order);
+        CreateOrder createOrder = this.context.getBean(CreateOrder.class);
+        createOrder.serOrder(order);
         invoker.add(createOrder);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
@@ -38,7 +45,7 @@ public class OrderResource {
 
     @GetMapping("/")
     public ResponseEntity<List<Order>> getOrder() {
-        List<Order> orders = this.orderService.getOrderList();
+        List<Order> orders = this.orderFacade.getOrders();
 
         return ResponseEntity.ok(orders);
     }
