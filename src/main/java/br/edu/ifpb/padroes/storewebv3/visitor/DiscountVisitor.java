@@ -2,6 +2,7 @@ package br.edu.ifpb.padroes.storewebv3.visitor;
 
 import br.edu.ifpb.padroes.storewebv3.domain.Book;
 import br.edu.ifpb.padroes.storewebv3.domain.Computer;
+import br.edu.ifpb.padroes.storewebv3.domain.Product;
 
 public class DiscountVisitor implements Visitor {
     private final Double PERCENTAGE_BOOK_DISCOUNT = 0.4;
@@ -17,6 +18,11 @@ public class DiscountVisitor implements Visitor {
     public void visit(Computer computer) {
         Long newPrice = applyDiscount(computer.getPrice(), PERCENTAGE_COMPUTER_DISCOUNT);
         computer.setPrice(newPrice);
+    }
+
+    @Override
+    public void visit(Product product) {
+        // does not have a discount yet
     }
 
     private Long applyDiscount(Long price, Double percentage) {

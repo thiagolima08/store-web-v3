@@ -2,7 +2,7 @@ package br.edu.ifpb.padroes.storewebv3.domain;
 
 import br.edu.ifpb.padroes.storewebv3.visitor.Visitor;
 
-abstract public class Product {
+public class Product {
 
     private Long id;
     private String sku;
@@ -50,5 +50,7 @@ abstract public class Product {
         this.description = description;
     }
 
-    public abstract void accept(Visitor visitor);
+    public void accept(Visitor visitor) {
+        visitor.visit(this);
+    }
 }
