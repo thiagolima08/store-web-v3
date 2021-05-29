@@ -5,7 +5,6 @@ import br.edu.ifpb.padroes.storewebv3.domain.OrderItem;
 import br.edu.ifpb.padroes.storewebv3.domain.Product;
 import br.edu.ifpb.padroes.storewebv3.repository.OrderRepository;
 import br.edu.ifpb.padroes.storewebv3.visitor.DiscountVisitor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -3,21 +3,28 @@ package br.edu.ifpb.padroes.storewebv3.payment;
 import br.edu.ifpb.padroes.storewebv3.config.StoreConfigurationProperties;
 import br.edu.ifpb.padroes.storewebv3.domain.Order;
 import br.edu.ifpb.padroes.storewebv3.domain.Product;
+import br.edu.ifpb.padroes.storewebv3.mediator.Component;
+import br.edu.ifpb.padroes.storewebv3.mediator.Mediator;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.model.Sku;
 import com.stripe.param.PaymentIntentCreateParams;
 import com.stripe.param.SkuCreateParams;
-import org.springframework.stereotype.Component;
 
-@Component
-public class StripeApi {
+@org.springframework.stereotype.Component
+public class StripeApi implements Component {
 
-    private final StoreConfigurationProperties storeConfigurationProperties;
+    private StoreConfigurationProperties storeConfigurationProperties;
+
+    private Mediator mediator;
 
     public StripeApi(StoreConfigurationProperties storeConfigurationProperties) {
         this.storeConfigurationProperties = storeConfigurationProperties;
+    }
+
+    public StripeApi() {
+
     }
 
     public PaymentIntent createOrder(Order order) {
@@ -47,5 +54,14 @@ public class StripeApi {
         return null;
     }
 
+    @Override
+    public void setMediator(Mediator mediator) {
+        this.mediator = mediator;
+    }
+
+    @Override
+    public String getName(){
+        return "Stripe API";
+    }
 
 }

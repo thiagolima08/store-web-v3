@@ -4,6 +4,9 @@ import br.edu.ifpb.padroes.storewebv3.commands.CreateOrder;
 import br.edu.ifpb.padroes.storewebv3.commands.Invoker;
 import br.edu.ifpb.padroes.storewebv3.domain.Order;
 import br.edu.ifpb.padroes.storewebv3.facade.OrderFacade;
+import br.edu.ifpb.padroes.storewebv3.mediator.ConcreteMediator;
+import br.edu.ifpb.padroes.storewebv3.mediator.Mediator;
+import br.edu.ifpb.padroes.storewebv3.payment.StripeApi;
 import br.edu.ifpb.padroes.storewebv3.service.OrderService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
@@ -22,6 +25,8 @@ public class OrderResource {
 
     private final ApplicationContext context;
 
+    Mediator mediator = new ConcreteMediator();
+
     public OrderResource(Invoker invoker, OrderFacade orderFacade, ApplicationContext context) {
         this.invoker = invoker;
         this.orderFacade = orderFacade;
@@ -33,6 +38,7 @@ public class OrderResource {
         CreateOrder createOrder = this.context.getBean(CreateOrder.class);
         createOrder.serOrder(order);
         invoker.add(createOrder);
+        mediator.registerComponent(new StripeApi());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
